@@ -1,14 +1,163 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로또 번호 추천기</title>
+
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --card-bg: #f5f5f5;
+            --button-bg: #007bff;
+            --number-bg: #ffcc00;
+        }
+
+        body.dark {
+            --bg-color: #121212;
+            --text-color: #ffffff;
+            --card-bg: #1e1e1e;
+            --button-bg: #0d6efd;
+            --number-bg: #ffa500;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            font-size: 16px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--button-bg);
+            color: #fff;
+        }
+
+        .set {
+            background-color: var(--card-bg);
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .numbers {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .number {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: var(--number-bg);
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        /* 📱 모바일 반응형 */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            .number {
+                width: 34px;
+                height: 34px;
+                line-height: 34px;
+                font-size: 14px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+
+<div class="container">
+    <h1>🎉 로또 번호 추천 (5세트) 🎉</h1>
+
+    <div class="controls">
+        <button onclick="generateLottoSets()">번호 추천받기</button>
+        <button onclick="toggleDarkMode()">🌙 / ☀️ 모드 전환</button>
+    </div>
+
+    <div id="result"></div>
+</div>
+
+<script>
+    function generateOneSet() {
+        const numbers = [];
+        while (numbers.length < 6) {
+            const num = Math.floor(Math.random() * 45) + 1;
+            if (!numbers.includes(num)) {
+                numbers.push(num);
+            }
+        }
+        return numbers.sort((a, b) => a - b);
+    }
+
+    function generateLottoSets() {
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = "";
+
+        for (let i = 1; i <= 5; i++) {
+            const setDiv = document.createElement("div");
+            setDiv.className = "set";
+
+            const title = document.createElement("h3");
+            title.textContent = `세트 ${i}`;
+            setDiv.appendChild(title);
+
+            const numbersDiv = document.createElement("div");
+            numbersDiv.className = "numbers";
+
+            generateOneSet().forEach(n => {
+                const span = document.createElement("span");
+                span.className = "number";
+                span.textContent = n;
+                numbersDiv.appendChild(span);
+            });
+
+            setDiv.appendChild(numbersDiv);
+            resultDiv.appendChild(setDiv);
+        }
+    }
+
+    function toggleDarkMode() {
+        document.body.classList.toggle("dark");
+    }
+</script>
+
 </body>
 </html>
+
