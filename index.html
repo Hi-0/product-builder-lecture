@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로또 번호 추천기</title>
-
+    <title>저녁 메뉴 추천</title>
     <style>
         :root {
             --bg-color: #ffffff;
             --text-color: #000000;
             --card-bg: #f5f5f5;
             --button-bg: #007bff;
-            --number-bg: #ffcc00;
+            --menu-bg: #ffcc00;
         }
 
         body.dark {
@@ -19,7 +18,7 @@
             --text-color: #ffffff;
             --card-bg: #1e1e1e;
             --button-bg: #0d6efd;
-            --number-bg: #ffa500;
+            --menu-bg: #ffa500;
         }
 
         body {
@@ -58,28 +57,23 @@
             color: #fff;
         }
 
-        .set {
+        .recommendation {
             background-color: var(--card-bg);
             margin-top: 20px;
             padding: 15px;
             border-radius: 10px;
-        }
-
-        .numbers {
+            min-height: 100px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
         }
 
-        .number {
-            width: 40px;
-            height: 40px;
-            line-height: 40px;
-            border-radius: 50%;
-            background-color: var(--number-bg);
-            margin: 5px;
+        .menu-name {
+            font-size: 24px;
             font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 10px;
+            background-color: var(--menu-bg);
         }
 
         /* 📱 모바일 반응형 */
@@ -88,15 +82,12 @@
                 font-size: 22px;
             }
 
-            .number {
-                width: 34px;
-                height: 34px;
-                line-height: 34px;
-                font-size: 14px;
-            }
-
             button {
                 width: 100%;
+            }
+
+            .menu-name {
+                font-size: 20px;
             }
         }
     </style>
@@ -104,53 +95,37 @@
 <body>
 
 <div class="container">
-    <h1>🎉 로또 번호 추천 (5세트) 🎉</h1>
+    <h1>오늘 저녁 뭐 먹지? 🤔</h1>
 
     <div class="controls">
-        <button onclick="generateLottoSets()">번호 추천받기</button>
+        <button onclick="recommendMenu()">메뉴 추천받기</button>
         <button onclick="toggleDarkMode()">🌙 / ☀️ 모드 전환</button>
     </div>
 
-    <div id="result"></div>
+    <div id="result" class="recommendation">
+        <p>버튼을 눌러 저녁 메뉴를 추천받으세요!</p>
+    </div>
 </div>
 
 <script>
-    function generateOneSet() {
-        const numbers = [];
-        while (numbers.length < 6) {
-            const num = Math.floor(Math.random() * 45) + 1;
-            if (!numbers.includes(num)) {
-                numbers.push(num);
-            }
-        }
-        return numbers.sort((a, b) => a - b);
-    }
+    const menuItems = [
+        '치킨', '피자', '삼겹살', '초밥', '파스타', '떡볶이', '김치찌개', '제육볶음',
+        '된장찌개', '부대찌개', '곱창', '족발', '보쌈', '짜장면', '짬뽕', '탕수육',
+        '라멘', '돈까스', '햄버거', '샌드위치', '카레', '쌀국수', '마라탕', '양꼬치'
+    ];
 
-    function generateLottoSets() {
+    function recommendMenu() {
         const resultDiv = document.getElementById("result");
-        resultDiv.innerHTML = "";
+        resultDiv.innerHTML = ""; // 기존 내용 초기화
 
-        for (let i = 1; i <= 5; i++) {
-            const setDiv = document.createElement("div");
-            setDiv.className = "set";
+        const randomIndex = Math.floor(Math.random() * menuItems.length);
+        const selectedMenu = menuItems[randomIndex];
 
-            const title = document.createElement("h3");
-            title.textContent = `세트 ${i}`;
-            setDiv.appendChild(title);
+        const menuSpan = document.createElement("span");
+        menuSpan.className = "menu-name";
+        menuSpan.textContent = selectedMenu;
 
-            const numbersDiv = document.createElement("div");
-            numbersDiv.className = "numbers";
-
-            generateOneSet().forEach(n => {
-                const span = document.createElement("span");
-                span.className = "number";
-                span.textContent = n;
-                numbersDiv.appendChild(span);
-            });
-
-            setDiv.appendChild(numbersDiv);
-            resultDiv.appendChild(setDiv);
-        }
+        resultDiv.appendChild(menuSpan);
     }
 
     function toggleDarkMode() {
@@ -160,4 +135,3 @@
 
 </body>
 </html>
-
