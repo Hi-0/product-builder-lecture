@@ -76,6 +76,13 @@
             background-color: var(--menu-bg);
         }
 
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
         /* 📱 모바일 반응형 */
         @media (max-width: 600px) {
             h1 {
@@ -94,12 +101,15 @@
 </head>
 <body>
 
+<div class="theme-toggle">
+    <button onclick="toggleDarkMode()">🌙 / ☀️ 모드 전환</button>
+</div>
+
 <div class="container">
     <h1>오늘 저녁 뭐 먹지? 🤔</h1>
 
     <div class="controls">
         <button onclick="recommendMenu()">메뉴 추천받기</button>
-        <button onclick="toggleDarkMode()">🌙 / ☀️ 모드 전환</button>
     </div>
 
     <div id="result" class="recommendation">
